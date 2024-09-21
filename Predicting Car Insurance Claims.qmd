@@ -1,0 +1,267 @@
+---
+title: "Predicting Car Insurance Claims"
+subtitle: "Data Cleaning and Logistic Regression"
+author: "Ibrahima Fikry Diallo"
+date: "`r Sys.Date()`"
+toc: true
+toc-location: left
+toc-depth: 2
+toc-title: On this page
+format:
+    #pdf: default 
+        #mainfont: "Times New Roman"
+        #sansfont: "Arial"
+        #monofont: "Courier New"
+    html: 
+      #code-fold: true
+      #code-tools: true
+      #code-link: true
+      smooth-scroll: true
+      code-overflow: wrap
+      code-summary: "Show code"
+      self-contained: true
+      grid: 
+        margin-width: 250px
+        body-width: 900px
+        sidebar-width: 150px 
+execute: 
+  echo: true
+reference-location: margin
+citation-location: margin
+code-annotations: hover
+title-block-banner: "#151931"
+title-block-banner-color: "#FACA22" 
+lightbox: true
+theme:
+ light: flatly
+ dark: darkly
+ 
+#bibliography: skeleton.bib
+---
+
+# Introduction
+
+![](Insurance policy image.png){.column-margin fig-align="center" width="227"}
+
+Machine learning has become increasingly important in the insurance industry, which heavily relies on data for decision-making.
+
+In this project, I analyzed customer data to help predict whether a claim will be made against a policy!. The goal is to identify the most impactful feature for building a logistic regression model that would allow the company to estimate this likelihood with accuracy.
+
+Insurance companies invest considerable resources into refining their pricing strategies and improving claim predictions. Since car insurance is mandatory in many countries, the market is very large, and these predictions can have a significant impact on business outcomes.
+
+------------------------------------------------------------------------
+
+# Investigating and cleaning the data
+
+### Client Data Description
+
+We have been supplied with customer data as a csv file called car_insurance.csv, along with a table detailing the column names and descriptions below.
+
+<details>
+
+<summary>Click to expand details on client data columns</summary>
+
+| Column                | Description                                                                                                                                  |
+|-------------------------|-----------------------------------------------|
+| `id`                  | Unique client identifier                                                                                                                     |
+| `age`                 | Client's age: <br> [`0`: 16-25 <br> `1`: 26-39 <br> `2`: 40-64 <br> `3`: 65+]{style="font-size: smaller;"}                                   |
+| `gender`              | Client's gender: <br> [`0`: Female <br> `1`: Male]{style="font-size: smaller;"}                                                              |
+| `driving_experience`  | Years the client has been driving: <br> [`0`: 0-9 <br> `1`: 10-19 <br> `2`: 20-29 <br> `3`: 30+]{style="font-size: smaller;"}                |
+| `education`           | Client's level of education: <br> [`0`: No education <br> `2`: High school <br> `3`: University]{style="font-size: smaller;"}                |
+| `income`              | Client's income level: <br> [`0`: Poverty <br> `1`: Working class <br> `2`: Middle class <br> `3`: Upper class]{style="font-size: smaller;"} |
+| `credit_score`        | Client's credit score (between zero and one)                                                                                                 |
+| `vehicle_ownership`   | Client's vehicle ownership status: <br> [`0`: Paying off finance <br> `1`: Owns their vehicle]{style="font-size: smaller;"}                  |
+| `vehcile_year`        | Year of vehicle registration: <br> [`0`: Before 2015 <br> `1`: 2015 or later]{style="font-size: smaller;"}                                   |
+| `married`             | Client's marital status: <br> [`0`: Not married <br> `1`: Married]{style="font-size: smaller;"}                                              |
+| `children`            | Client's number of children                                                                                                                  |
+| `postal_code`         | Client's postal code                                                                                                                         |
+| `annual_mileage`      | Number of miles driven by the client each year                                                                                               |
+| `vehicle_type`        | Type of car: <br> [`0`: Sedan <br> `1`: Sports car]{style="font-size: smaller;"}                                                             |
+| `speeding_violations` | Total number of speeding violations received by the client                                                                                   |
+| `duis`                | Number of times the client has been caught driving under the influence of alcohol                                                            |
+| `past_accidents`      | Total number of previous accidents the client has been involved in                                                                           |
+| `outcome`             | Whether the client made a claim on their car insurance: <br> [`0`: No claim <br> `1`: Made a claim]{style="font-size: smaller;"}             |
+
+</details>
+
+### Reading the dataset
+
+```{r, message=FALSE}
+#| echo: true
+
+library(readr) # <1>
+library(gt) # <2>
+library(dplyr) # <3>
+
+
+# reading the dataset
+Cars = read_csv("car_insurance.csv")
+
+# creating custom table using gt library
+Cars %>% head(10) %>% gt() %>%
+    tab_header(title = md("**customer data**"),
+               subtitle = md("First 10 elements"))
+```
+
+1.  Fast and user-friendly package for reading tabular data into R.
+2.  Elegant and user-friendly package for creating and customizing tables in R.
+3.  Essential toolkit for data manipulation with intuitive functions.
+
+### View data types
+
+```{r}
+# Display the structure of the dataset in a readable format
+str(Cars, vec.len = 1, give.attr = FALSE)
+```
+
+### Missing values per column
+
+```{r}
+#| label: fig1
+#| fig-cap: "Missing values per column in %."
+#| message: false
+
+
+colSums(is.na(Cars))
+
+library(DataExplorer) # <1>
+
+plot_missing(Cars)
+```
+
+1.  Automated and easy-to-use package for exploratory data analysis and reporting in R.
+
+### Handling missing values
+
+The variables with missing values `annual_mileage` and `credit_score` are continuous in nature and the proportion of missing data is small, making the mean a potential appropriate central estimate for imputation.[By imputing missing values rather than removing entire rows, we are able to retain a larger portion of the dataset for analysis, which ensures that the model is trained on as much information as possible]{.aside}
+
+Let us check the distribution of these variables first
+
+#### Distribution of credit_score
+
+```{r}
+#| label: fig1-margin
+#| fig-cap: "Approximately normally distributed credit_score "
+#| message: false
+#| column: margin
+#| warning: false
+
+library(ggplot2) # <1>
+library(hrbrthemes) # <2>
+
+Cars %>%
+        ggplot( aes(x=credit_score)) + geom_density(fill="#151931", color="#e9ecef", alpha=0.9) + ggtitle("Distribution of credit_score") 
+        
+```
+
+1.  Powerful and flexible package for creating advanced and customizable data visualizations in R.
+2.  Minimal and modern ggplot2 themes for creating visually appealing charts in R.
+
+```{r}
+summary(Cars$credit_score)
+```
+
+#### Distribution of annual_mileage
+
+```{r}
+#| label: fig2-margin
+#| fig-cap: " Approximately normally distributed annual_mileage"
+#| message: false
+#| column: margin
+#| warning: false
+
+
+Cars %>%
+        ggplot( aes(x=annual_mileage)) + geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) + ggtitle("Distribution of annual_mileage") 
+      
+```
+
+```{r}
+summary(Cars$annual_mileage)
+
+```
+
+The variables are approximately normally distributed, allowing the mean to represent the central tendency without significantly skewing the results.
+
+#### Fill missing values with the mean
+
+```{r}
+Cars$credit_score[is.na(Cars$credit_score)] <- mean(Cars$credit_score, na.rm = TRUE)
+Cars$annual_mileage[is.na(Cars$annual_mileage)] <- mean(Cars$annual_mileage, na.rm = TRUE)
+```
+
+#### Encoding categorical variables ?
+
+Upon examining the dataset, we found that the categorical variables were already numerically encoded. This included columns such as `gender`, `race`, `driving_experience`, `education`, and `vehicle_type`. Since these features were represented as integers, additional encoding (e.g., one-hot encoding) was not required. The dataset was structured with consistent numeric values, making it ready for further analysis and modeling without the need for manual encoding of categorical variables. [For example: `gender`: 0 for Female, 1 for Male `vehicle_ownership`: 0 for Paying off finance, 1 for Owns their vehicle `education`: 0 for No education, 2 for High school, 3 for University]{.aside}
+
+This simplified the preprocessing steps and allowed the focus to shift towards handling other aspects, such as scaling continuous variables and addressing any potential missing values.
+
+------------------------------------------------------------------------
+
+# Modeling
+
+### Building the models
+
+[**About Logistic Regression Model**: <br> Logistic regression is a widely used statistical method for binary classification problems—where the outcome is either "yes" (claim made) or "no" (no claim). <br><br> **How it works**: <br> Logistic regression models the relationship between the dependent variable (the outcome) and one or more independent variables (features) by estimating probabilities. The model outputs a probability value between 0 and 1, which can then be classified into binary categories (e.g., claim or no claim).<br><br>**Why it's suitable**: <br> In our case, the outcome variable is binary (whether a claim is made or not), making logistic regression an ideal choice. It helps us evaluate how changes in each feature influence the likelihood of a claim, giving us a clear understanding of the predictors’ importance.]{.aside}
+
+For this project, we use a **logistic regression model** to predict the probability of a car insurance claim based on individual features.In this section, we systematically analyze the impact of individual features on the outcome of car insurance claims. The goal is to evaluate how well each feature predicts whether a claim will be made.
+
+```{r, message=FALSE}
+
+library(glue) # <1>
+library(yardstick) # <2>
+
+# Create a dataframe to store features
+features_df <- data.frame(features = c(names(subset(Cars, select = -c(id, outcome))))) # <3>
+
+# Empty vector to store accuracies
+accuracies <- c()
+
+# Loop through features
+for (col in features_df$features) {
+        
+        # Create a model
+        model <- glm(glue('outcome ~ {col}'), data = Cars, family = 'binomial') # <4>
+        
+        # Get prediction values for the model
+        predictions <- round(fitted(model)) # <5>
+        
+        # Calculate accuracy
+        accuracy <- length(which(predictions == Cars$outcome)) / length(Cars$outcome) # <6>
+        
+        # Add accuracy to features_df
+        features_df[which(features_df$feature == col), "accuracy"] = accuracy # <7>
+}
+```
+
+1.  Simple and flexible string interpolation using embedded R code.
+2.  Comprehensive package for measuring model performance with a wide range of evaluation metrics in R.
+3.  **Feature Selection:**\
+    First, we create a dataframe that stores all the relevant features from the dataset, excluding identifiers like id and the target variable, outcome. This allows us to focus on the predictors without biasing the model.
+4.  **Model Creation:**\
+    For each feature, we build a logistic regression model. By using the glm() function with a binomial family, we develop a series of models where the outcome is predicted based on one feature at a time. This method helps us isolate the effect of each individual feature on claim outcomes.
+5.  **Prediction and Accuracy Calculation:** After fitting each model, we generate prediction values. We then round these predictions to classify the outcome (e.g., whether a claim is made or not). To assess the model’s performance, we calculate the accuracy by comparing the predictions to the actual outcomes in the dataset. Accuracy is defined as the proportion of correct predictions out of the total number of cases.
+6.  **Storing Results:** Once we obtain the accuracy for each feature, we store it in the dataframe. This allows us to compare the predictive power of each feature side-by-side and identify which ones contribute the most to accurate predictions.
+
+### Finding the feature with the largest accuracy
+
+We calculate accuracy as the proportion of correct predictions out of the total number of observations in the dataset.[$$
+\text{Accuracy} = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Observations}}
+$$]{.aside} Specifically, we count how many times the model's prediction (either 0 or 1) matches the actual outcome and divide this by the total number of cases.
+
+```{r}
+# Find the feature with the largest accuracy
+best_feature <- features_df$features[which.max(features_df$accuracy)]
+best_accuracy <- max(features_df$accuracy)
+
+# Create best_feature_df
+best_feature_df <- data.frame(best_feature, best_accuracy)
+
+# Run in a new cell to check your solution
+best_feature_df
+
+```
+
+After evaluating the predictive power of each feature, we found that `driving_experience` emerged as the most accurate predictor of car insurance claims, with an accuracy of **0.7771** (approximately **77.7%**).
+
+This means that using only the `driving_experience` variable, the model correctly predicted whether a claim was made or not in about **77.7%** of the cases. This high accuracy suggests that driving experience plays a significant role in determining the likelihood of filing a claim. It aligns with the intuition that more experienced drivers may have a better understanding of road safety and accident prevention, leading to fewer insurance claims.
