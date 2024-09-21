@@ -150,7 +150,7 @@ library(ggplot2) # <1>
 library(hrbrthemes) # <2>
 
 Cars %>%
-        ggplot( aes(x=credit_score)) + geom_density(fill="#151931", color="#e9ecef", alpha=0.9) + ggtitle("Distribution of credit_score") 
+        ggplot( aes(x=credit_score)) + geom_density(fill="#151931", color="#e9ecef", alpha=0.9) + ggtitle("Distribution of credit_score") + theme_ipsum()
         
 ```
 
@@ -172,7 +172,7 @@ summary(Cars$credit_score)
 
 
 Cars %>%
-        ggplot( aes(x=annual_mileage)) + geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) + ggtitle("Distribution of annual_mileage") 
+        ggplot( aes(x=annual_mileage)) + geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) + ggtitle("Distribution of annual_mileage") + theme_ipsum()
       
 ```
 
