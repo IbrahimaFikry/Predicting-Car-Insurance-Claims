@@ -30,7 +30,7 @@ reference-location: margin
 citation-location: margin
 code-annotations: hover
 title-block-banner: "#151931"
-title-block-banner-color: "#FACA22" 
+title-block-banner-color: "#FACA60" 
 lightbox: true
 theme:
  light: flatly
@@ -41,7 +41,7 @@ theme:
 
 # Introduction
 
-![](Insurance policy image.png){.column-margin fig-align="center" width="227"}
+![](Insurance%20policy%20image.png){.column-margin fig-align="center" width="227"}
 
 Machine learning has become increasingly important in the insurance industry, which heavily relies on data for decision-making.
 
@@ -61,26 +61,26 @@ We have been supplied with customer data as a csv file called car_insurance.csv,
 
 <summary>Click to expand details on client data columns</summary>
 
-| Column                | Description                                                                                                                                  |
-|-------------------------|-----------------------------------------------|
-| `id`                  | Unique client identifier                                                                                                                     |
-| `age`                 | Client's age: <br> [`0`: 16-25 <br> `1`: 26-39 <br> `2`: 40-64 <br> `3`: 65+]{style="font-size: smaller;"}                                   |
-| `gender`              | Client's gender: <br> [`0`: Female <br> `1`: Male]{style="font-size: smaller;"}                                                              |
-| `driving_experience`  | Years the client has been driving: <br> [`0`: 0-9 <br> `1`: 10-19 <br> `2`: 20-29 <br> `3`: 30+]{style="font-size: smaller;"}                |
-| `education`           | Client's level of education: <br> [`0`: No education <br> `2`: High school <br> `3`: University]{style="font-size: smaller;"}                |
-| `income`              | Client's income level: <br> [`0`: Poverty <br> `1`: Working class <br> `2`: Middle class <br> `3`: Upper class]{style="font-size: smaller;"} |
-| `credit_score`        | Client's credit score (between zero and one)                                                                                                 |
-| `vehicle_ownership`   | Client's vehicle ownership status: <br> [`0`: Paying off finance <br> `1`: Owns their vehicle]{style="font-size: smaller;"}                  |
-| `vehcile_year`        | Year of vehicle registration: <br> [`0`: Before 2015 <br> `1`: 2015 or later]{style="font-size: smaller;"}                                   |
-| `married`             | Client's marital status: <br> [`0`: Not married <br> `1`: Married]{style="font-size: smaller;"}                                              |
-| `children`            | Client's number of children                                                                                                                  |
-| `postal_code`         | Client's postal code                                                                                                                         |
-| `annual_mileage`      | Number of miles driven by the client each year                                                                                               |
-| `vehicle_type`        | Type of car: <br> [`0`: Sedan <br> `1`: Sports car]{style="font-size: smaller;"}                                                             |
-| `speeding_violations` | Total number of speeding violations received by the client                                                                                   |
-| `duis`                | Number of times the client has been caught driving under the influence of alcohol                                                            |
-| `past_accidents`      | Total number of previous accidents the client has been involved in                                                                           |
-| `outcome`             | Whether the client made a claim on their car insurance: <br> [`0`: No claim <br> `1`: Made a claim]{style="font-size: smaller;"}             |
+| Column | Description |
+|------------------------------------|------------------------------------|
+| `id` | Unique client identifier |
+| `age` | Client's age: <br> [`0`: 16-25 <br> `1`: 26-39 <br> `2`: 40-64 <br> `3`: 65+]{style="font-size: smaller;"} |
+| `gender` | Client's gender: <br> [`0`: Female <br> `1`: Male]{style="font-size: smaller;"} |
+| `driving_experience` | Years the client has been driving: <br> [`0`: 0-9 <br> `1`: 10-19 <br> `2`: 20-29 <br> `3`: 30+]{style="font-size: smaller;"} |
+| `education` | Client's level of education: <br> [`0`: No education <br> `2`: High school <br> `3`: University]{style="font-size: smaller;"} |
+| `income` | Client's income level: <br> [`0`: Poverty <br> `1`: Working class <br> `2`: Middle class <br> `3`: Upper class]{style="font-size: smaller;"} |
+| `credit_score` | Client's credit score (between zero and one) |
+| `vehicle_ownership` | Client's vehicle ownership status: <br> [`0`: Paying off finance <br> `1`: Owns their vehicle]{style="font-size: smaller;"} |
+| `vehcile_year` | Year of vehicle registration: <br> [`0`: Before 2015 <br> `1`: 2015 or later]{style="font-size: smaller;"} |
+| `married` | Client's marital status: <br> [`0`: Not married <br> `1`: Married]{style="font-size: smaller;"} |
+| `children` | Client's number of children |
+| `postal_code` | Client's postal code |
+| `annual_mileage` | Number of miles driven by the client each year |
+| `vehicle_type` | Type of car: <br> [`0`: Sedan <br> `1`: Sports car]{style="font-size: smaller;"} |
+| `speeding_violations` | Total number of speeding violations received by the client |
+| `duis` | Number of times the client has been caught driving under the influence of alcohol |
+| `past_accidents` | Total number of previous accidents the client has been involved in |
+| `outcome` | Whether the client made a claim on their car insurance: <br> [`0`: No claim <br> `1`: Made a claim]{style="font-size: smaller;"} |
 
 </details>
 
