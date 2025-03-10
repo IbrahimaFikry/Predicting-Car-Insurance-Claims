@@ -30,7 +30,7 @@ reference-location: margin
 citation-location: margin
 code-annotations: hover
 title-block-banner: "#151931"
-title-block-banner-color: "#FACA99" 
+title-block-banner-color: "#FACA80" 
 lightbox: true
 theme:
  light: flatly
