@@ -5,7 +5,7 @@ author: "Ibrahima Fikry Diallo"
 date: "2024-09-21"
 toc: true
 toc-location: left
-toc-depth: 2
+toc-depth: 3
 toc-title: On this page
 format:
     #pdf: default 
@@ -13,14 +13,16 @@ format:
         #sansfont: "Arial"
         #monofont: "Courier New"
     html: 
+      #theme: cosmo 
       #code-fold: true
       #code-tools: true
       #code-link: true
+      #css: styles.css
       smooth-scroll: true
       code-overflow: wrap
       code-summary: "Show code"
       self-contained: true
-      mainfont: "Poppins"
+      #mainfont: "Poppins"
       grid: 
         margin-width: 250px
         body-width: 900px
@@ -34,7 +36,7 @@ title-block-banner: "#151931"
 title-block-banner-color: "#FACA80" 
 lightbox: true
 theme:
- light: flatly
+ light: cosmo
  dark: darkly
  
 #bibliography: skeleton.bib
