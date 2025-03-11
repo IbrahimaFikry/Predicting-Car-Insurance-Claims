@@ -2,7 +2,7 @@
 title: "Predicting Car Insurance Claims"
 subtitle: "Data Cleaning and Logistic Regression"
 author: "Ibrahima Fikry Diallo"
-date: "`r Sys.Date()`"
+date: "2024-09-21"
 toc: true
 toc-location: left
 toc-depth: 2
@@ -20,6 +20,7 @@ format:
       code-overflow: wrap
       code-summary: "Show code"
       self-contained: true
+      mainfont: "Poppins"
       grid: 
         margin-width: 250px
         body-width: 900px
