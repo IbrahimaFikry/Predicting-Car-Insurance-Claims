@@ -38,7 +38,7 @@ theme:
  dark: darkly
 ---
 
-# INTRODUCTION
+# I. INTRODUCTION
 
 ![](Insurance%20policy%20image.png){.column-margin fig-align="center" width="227"}
 
@@ -50,7 +50,7 @@ Insurance companies invest considerable resources into refining their pricing st
 
 ------------------------------------------------------------------------
 
-# INVESTIGATING AND CLEANING THE DATA
+# II. INVESTIGATING AND CLEANING THE DATA
 
 ### Client Data Description
 
@@ -197,7 +197,7 @@ This simplified the preprocessing steps and allowed the focus to shift towards h
 
 ------------------------------------------------------------------------
 
-# MODELING
+# III. MODELING
 
 ### Building the models
 
