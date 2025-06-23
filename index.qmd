@@ -1,48 +1,44 @@
 ---
-title: "Predicting Car Insurance Claims"
+title: "PREDICTING CAR INSURANCE CLAIMS"
 subtitle: "Data Cleaning and Logistic Regression"
 author: "Ibrahima Fikry Diallo"
-date: "2024-09-21"
 toc: true
-toc-location: left
+toc-location: left 
 toc-depth: 3
 toc-title: On this page
 format:
-    #pdf: default 
-        #mainfont: "Times New Roman"
-        #sansfont: "Arial"
-        #monofont: "Courier New"
-    html: 
-      #theme: cosmo 
-      #code-fold: true
-      #code-tools: true
-      #code-link: true
+    html:
+      include-after-body: footer.html
       #css: styles.css
+      df-print: paged
+      code-fold: true
+      #code-tools: true
+      code-link: true
       smooth-scroll: true
       code-overflow: wrap
       code-summary: "Show code"
       self-contained: true
-      #mainfont: "Poppins"
+   
       grid: 
-        margin-width: 250px
+        margin-width: 300px
         body-width: 900px
-        sidebar-width: 150px 
+        sidebar-width: 200px 
 execute: 
   echo: true
+  warning: false
+  message: false
 reference-location: margin
 citation-location: margin
 code-annotations: hover
 title-block-banner: "#151931"
-title-block-banner-color: "#FACA80" 
+title-block-banner-color: "#D4A96A" 
 lightbox: true
 theme:
  light: cosmo
  dark: darkly
- 
-#bibliography: skeleton.bib
 ---
 
-# Introduction
+# INTRODUCTION
 
 ![](Insurance%20policy%20image.png){.column-margin fig-align="center" width="227"}
 
@@ -54,7 +50,7 @@ Insurance companies invest considerable resources into refining their pricing st
 
 ------------------------------------------------------------------------
 
-# Investigating and cleaning the data
+# INVESTIGATING AND CLEANING THE DATA
 
 ### Client Data Description
 
@@ -201,7 +197,7 @@ This simplified the preprocessing steps and allowed the focus to shift towards h
 
 ------------------------------------------------------------------------
 
-# Modeling
+# MODELING
 
 ### Building the models
 
