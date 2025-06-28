@@ -25,6 +25,7 @@ format:
         sidebar-width: 200px 
 execute: 
   echo: true
+  cache: true
   warning: false
   message: false
 reference-location: margin
